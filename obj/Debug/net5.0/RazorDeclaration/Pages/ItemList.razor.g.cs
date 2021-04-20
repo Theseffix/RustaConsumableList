@@ -80,7 +80,7 @@ using RustaConsumerList.Shared;
 #nullable disable
 #nullable restore
 #line 2 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
-using ConsItemListBlazor.Pages;
+using RustaConsumerList.Pages;
 
 #line default
 #line hidden
@@ -115,19 +115,19 @@ using System.Collections.Generic;
 #nullable disable
 #nullable restore
 #line 7 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
-using ConsItemListBlazor.Models;
+using RustaConsumerList.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 8 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
-using ConsItemListBlazor.Services;
+using RustaConsumerList.Services;
 
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/")]
+    [Microsoft.AspNetCore.Components.RouteAttribute("/ItemList")]
     public partial class ItemList : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -136,7 +136,7 @@ using ConsItemListBlazor.Services;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 43 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
+#line 44 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
       
 
     public List<ConsumptionProduct> AllItems = new List<ConsumptionProduct>();

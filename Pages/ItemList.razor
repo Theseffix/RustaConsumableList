@@ -1,0 +1,70 @@
+﻿@page "/ItemList"
+@using RustaConsumerList.Pages
+@using Microsoft.AspNetCore.Components;
+@using System.Threading.Tasks;
+@using System.Linq;
+@using System.Collections.Generic;
+@using RustaConsumerList.Models;
+@using RustaConsumerList.Services; 
+
+@inject ConsItemService ConItemDb 
+
+<div style="width:100%">
+    <div style="width:95%;">
+        <br />
+        @if (!CategoryClicked)
+        {
+            @foreach (string Category in Categories)
+            {
+                <div style="background-color:lightgray;min-width:150px;min-height:200px;width:15%;float:left;margin-left:2%;margin-top:2%">
+                    <img src="~/images/ImageMissing.png" alt="Image Missing" style="margin-left:auto;margin-right:auto;margin-top:6px;display:block;" />
+                    <p>@Category</p>
+                    <button @onclick="() => DivClicked(Category)" >@Category</button>
+                </div>
+            }
+        }
+
+        @if (CategoryClicked)
+        {
+            @foreach (var item in AllItems)
+            {
+                if (item.Category == CatChoise)
+                {
+                    <div style="background-color:lightgray;min-width:150px;min-height:200px;width:15%;float:left;margin-left:2%;margin-top:2%">
+                        <img src="~/images/ImageMissing.png" alt="Image Missing" style="margin-left:auto;margin-right:auto;margin-top:6px;display:block;" />
+                        <p>@item.Name</p>
+                    </div>
+                }
+            }
+        }
+    </div>
+</div>
+
+
+@code{
+
+    public List<ConsumptionProduct> AllItems = new List<ConsumptionProduct>();
+    public static List<string> Categories = new List<string>();
+
+    public static bool CategoryClicked = false;
+    public static string CatChoise = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        AllItems = (await ConItemDb.GetItems()).ToList();
+        foreach (var item in AllItems)
+        {
+            if (!Categories.Contains(item.Category))
+            {
+                Categories.Add(item.Category);
+            }
+        }
+
+    }
+
+    private async Task DivClicked(string Category)
+    {
+        CategoryClicked = true;
+        CatChoise = Category;
+    }
+}

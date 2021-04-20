@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using RustaConsumerList.Models;
 
 namespace RustaConsumerList
 {
@@ -12,27 +14,19 @@ namespace RustaConsumerList
      
      */
 
-    class EFContext : DbContext
+    public class EFContext : DbContext, IEFContext
     {
-        private string connectionString;
-
-        public EFContext() : base()
+        public EFContext(DbContextOptions<EFContext> options) : base(options)
         {
-            var builder = new ConfigurationBuilder();
-            builder.AddJsonFile("appsettings.json", optional: false);
-
-            var configuration = builder.Build();
-            connectionString = configuration.GetConnectionString("sqlConnection");
-
         }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            optionsBuilder.UseSqlServer(connectionString);
-        }
 
-        //Bygg nya tables
-        public DbSet<Models.ConsumptionProduct> Products { get; set; }
+            modelBuilder.Entity<ConsumptionProduct>();
+
+            base.OnModelCreating(modelBuilder);
+        }
+        public DbSet<ConsumptionProduct> Products { get; set; }
         //Skjut ut databas genom Add-Migration i Package Manager Console. Ex. Add-Migration "V2"
     }
 }

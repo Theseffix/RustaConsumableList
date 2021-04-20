@@ -10,5 +10,7 @@ namespace RustaConsumerList.Models
         public string Name { get; set; }
         //[Column("Category")]
         public string Category { get; set; }
+
+
     }
 }

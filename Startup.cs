@@ -5,12 +5,13 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RustaConsumerList.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using RustaConsumerList.Models;
+using RustaConsumerList.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace RustaConsumerList
 {
@@ -27,10 +28,13 @@ namespace RustaConsumerList
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContextFactory<EFContext>(options => options.UseSqlServer(Configuration.GetConnectionString("sqlConnection")));
+            services.AddScoped<EFContext>(p => p.GetRequiredService<IDbContextFactory<EFContext>>().CreateDbContext());
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
             services.AddScoped<ConsumptionProduct>();
+            services.AddScoped<ConsItemService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
