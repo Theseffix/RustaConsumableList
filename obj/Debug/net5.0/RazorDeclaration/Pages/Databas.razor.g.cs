@@ -72,84 +72,84 @@ using RustaConsumerList.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
+#line 2 "D:\repos\Rusta\RustaConsumerList\Pages\Databas.razor"
 using RustaConsumerList.Pages;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
+#line 3 "D:\repos\Rusta\RustaConsumerList\Pages\Databas.razor"
 using Microsoft.AspNetCore.Components;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
+#line 4 "D:\repos\Rusta\RustaConsumerList\Pages\Databas.razor"
 using Microsoft.AspNetCore.Hosting;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
+#line 5 "D:\repos\Rusta\RustaConsumerList\Pages\Databas.razor"
 using Microsoft.AspNetCore.Components.Forms;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
+#line 6 "D:\repos\Rusta\RustaConsumerList\Pages\Databas.razor"
 using Blazority;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
+#line 7 "D:\repos\Rusta\RustaConsumerList\Pages\Databas.razor"
 using System.Threading.Tasks;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
+#line 8 "D:\repos\Rusta\RustaConsumerList\Pages\Databas.razor"
 using System.Linq;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 9 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
+#line 9 "D:\repos\Rusta\RustaConsumerList\Pages\Databas.razor"
 using System.IO;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 10 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
+#line 10 "D:\repos\Rusta\RustaConsumerList\Pages\Databas.razor"
 using System.Collections.Generic;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 11 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
+#line 11 "D:\repos\Rusta\RustaConsumerList\Pages\Databas.razor"
 using RustaConsumerList.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 12 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
+#line 12 "D:\repos\Rusta\RustaConsumerList\Pages\Databas.razor"
 using RustaConsumerList.Services;
 
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/")]
-    public partial class ItemList : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/DB")]
+    public partial class Databas : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -157,33 +157,46 @@ using RustaConsumerList.Services;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 49 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
+#line 36 "D:\repos\Rusta\RustaConsumerList\Pages\Databas.razor"
       
+
+    public List<ConsumptionProduct> Products = new();
+    public DatagridPagination<ConsumptionProduct> Paginator;
+
     protected override async Task OnInitializedAsync()
     {
-        AllItems = (await ConItemDb.GetItems()).ToList();
-        foreach (var item in AllItems)
-        {
-            if (!Categories.Contains(item.Category))
-            {
-                Categories.Add(item.Category);
-            }
-        }
-        this.StateHasChanged();
+
     }
 
-    #region Categorys
-    public List<ConsumptionProduct> AllItems = new List<ConsumptionProduct>();
-    public static List<string> Categories = new List<string>();
+    #region ExcelModalRegion
 
-    public static bool CategoryClicked = false;
+    public bool ExcelModal { get; set; }
 
-    public static string CatChoise = "";
+    string Message = "No file selected";
 
-    private async Task DivClicked(string Category)
+    private ExcelModel model = new ExcelModel();
+    IReadOnlyList<IBrowserFile> selectedFiles;
+
+    public class ExcelModel
     {
-        CategoryClicked = true;
-        CatChoise = Category;
+        public string ID { get; set; }
+        public string Name { get; set; }
+        public string Category { get; set; }
+    }
+
+    async void OnInputFileChange(InputFileChangeEventArgs e)
+    {
+
+        selectedFiles = e.GetMultipleFiles();
+        Message = $"{selectedFiles.Count} file selected";
+        try
+        {
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+        this.StateHasChanged();
     }
     #endregion
 

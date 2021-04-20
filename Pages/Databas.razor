@@ -1,0 +1,78 @@
+﻿@page "/DB"
+@using RustaConsumerList.Pages
+@using Microsoft.AspNetCore.Components;
+@using Microsoft.AspNetCore.Hosting
+@using Microsoft.AspNetCore.Components.Forms
+@using Blazority;
+@using System.Threading.Tasks;
+@using System.Linq;
+@using System.IO;
+@using System.Collections.Generic;
+@using RustaConsumerList.Models;
+@using RustaConsumerList.Services;
+
+@inject ConsItemService ConItemDb
+
+<div style="height:60px"></div>
+<div style="padding-left:12px;padding-right:12px;">
+    <InputFile OnChange="OnInputFileChange" multiple />
+    <br />
+    <Button Variant="Primary">Skapa</Button>
+    <br />
+
+    <Datagrid Items="Products" GroupBy="u => u.Category">
+        <DatagridColumn Title="Id" TRowData="ConsumptionProduct" Field="c => c.Id" CanSort="true" />
+        <DatagridColumn Title="Name" TRowData="ConsumptionProduct" Field="c => c.Name" CanSort="true"/>
+
+        <DatagridFooter TRowData="ConsumptionProduct">
+            <DatagridPagination @ref="Paginator" TRowData="ConsumptionProduct" PageSize="10" PageSizes="new int[] { 1, 3, 5, 10, 20, 30 }" PageSizeLabel="Produkter per sida">
+                @(Paginator.Pager.StartIndex + 1) - @(Paginator.Pager.EndIndex + 1) of @(Paginator.Pager.ItemCount) users
+            </DatagridPagination>
+        </DatagridFooter>
+    </Datagrid>
+</div>
+
+
+@code{
+
+    public List<ConsumptionProduct> Products = new();
+    public DatagridPagination<ConsumptionProduct> Paginator;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+    #region ExcelModalRegion
+
+    public bool ExcelModal { get; set; }
+
+    string Message = "No file selected";
+
+    private ExcelModel model = new ExcelModel();
+    IReadOnlyList<IBrowserFile> selectedFiles;
+
+    public class ExcelModel
+    {
+        public string ID { get; set; }
+        public string Name { get; set; }
+        public string Category { get; set; }
+    }
+
+    async void OnInputFileChange(InputFileChangeEventArgs e)
+    {
+
+        selectedFiles = e.GetMultipleFiles();
+        Message = $"{selectedFiles.Count} file selected";
+        try
+        {
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+        this.StateHasChanged();
+    }
+    #endregion
+
+}

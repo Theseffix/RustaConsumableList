@@ -1,13 +1,28 @@
-﻿@inherits LayoutComponentBase
+﻿@using Blazority;
 
+@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
 
-
-<div class="main">
-    <div class="top-row px-4">
-        <a>Rusta</a>
+<div>
+    <div style="background-color:#ffd100;position:fixed;width:100%;height:50px">
+        <span class="title">Rusta</span>
+        <Button style="float:right" Variant="primary" OnClick="() => Navigate(DBNav)">Databas</Button>
     </div>
 
-    <div class="content px-4">
-        @Body
+    <div class="content-container">
+        <div class="content-area">
+            @Body
+        </div>
     </div>
 </div>
+
+@code
+{
+
+    string DBNav = "/DB";
+
+    public void Navigate(string URL)
+    {
+        NavigationManager.NavigateTo(URL);
+    }
+}

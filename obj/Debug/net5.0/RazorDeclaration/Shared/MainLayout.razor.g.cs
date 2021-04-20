@@ -82,6 +82,13 @@ using RustaConsumerList.Shared;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 1 "D:\repos\Rusta\RustaConsumerList\Shared\MainLayout.razor"
+using Blazority;
+
+#line default
+#line hidden
+#nullable disable
     public partial class MainLayout : LayoutComponentBase
     {
         #pragma warning disable 1998
@@ -89,6 +96,21 @@ using RustaConsumerList.Shared;
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 20 "D:\repos\Rusta\RustaConsumerList\Shared\MainLayout.razor"
+ 
+
+    string DBNav = "/DB";
+
+    public void Navigate(string URL)
+    {
+        NavigationManager.NavigateTo(URL);
+    }
+
+#line default
+#line hidden
+#nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
     }
 }
 #pragma warning restore 1591

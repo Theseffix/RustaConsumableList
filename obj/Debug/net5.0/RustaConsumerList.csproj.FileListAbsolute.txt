@@ -93,3 +93,13 @@ D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\ICSharpCode.SharpZipLib.dll
 D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\System.Text.Json.dll
 D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\System.Xml.XPath.XmlDocument.dll
 D:\repos\Rusta\RustaConsumerList\obj\Debug\net5.0\Razor\Pages\ItemList.razor.g.cs
+D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\Blazority.dll
+D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\Microsoft.AspNetCore.Authorization.dll
+D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\Microsoft.AspNetCore.Components.dll
+D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\Microsoft.AspNetCore.Components.Forms.dll
+D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\Microsoft.AspNetCore.Components.Web.dll
+D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\Microsoft.AspNetCore.Metadata.dll
+D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\Microsoft.JSInterop.dll
+D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\System.IO.Pipelines.dll
+D:\repos\Rusta\RustaConsumerList\obj\Debug\net5.0\RazorDeclaration\Pages\Databas.razor.g.cs
+D:\repos\Rusta\RustaConsumerList\obj\Debug\net5.0\Razor\Pages\Databas.razor.g.cs

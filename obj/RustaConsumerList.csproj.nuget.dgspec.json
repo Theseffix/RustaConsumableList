@@ -48,6 +48,10 @@
               "target": "Package",
               "version": "[0.2.0, )"
             },
+            "Blazority": {
+              "target": "Package",
+              "version": "[0.7.2, )"
+            },
             "EPPlus": {
               "target": "Package",
               "version": "[5.6.3, )"
