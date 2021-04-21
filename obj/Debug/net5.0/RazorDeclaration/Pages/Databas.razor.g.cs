@@ -157,53 +157,130 @@ using RustaConsumerList.Services;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 36 "D:\repos\Rusta\RustaConsumerList\Pages\Databas.razor"
-      
+#line 34 "D:\repos\Rusta\RustaConsumerList\Pages\Databas.razor"
+ 
 
     public List<ConsumptionProduct> Products = new();
-    public DatagridPagination<ConsumptionProduct> Paginator;
+    private List<ConsumptionProduct> NewExcelList = new();
+    private List<ConsumptionProduct> ProductsToRemove = new();
+    private List<ConsumptionProduct> ProductsToAdd = new();
+    private List<ConsumptionProduct> ProductsToUpdate = new();
+
+    bool Error = false;
+
+    string ErrorMessage { get; set; }
+
+    public int removed { get; set; }
+    public int added { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-
+        Products = (await ConItemDb.Get()).ToList();
+        this.StateHasChanged();
     }
-
-    #region ExcelModalRegion
-
-    public bool ExcelModal { get; set; }
 
     string Message = "No file selected";
-
-    private ExcelModel model = new ExcelModel();
     IReadOnlyList<IBrowserFile> selectedFiles;
-
-    public class ExcelModel
-    {
-        public string ID { get; set; }
-        public string Name { get; set; }
-        public string Category { get; set; }
-    }
 
     async void OnInputFileChange(InputFileChangeEventArgs e)
     {
-
+        Error = false;
         selectedFiles = e.GetMultipleFiles();
         Message = $"{selectedFiles.Count} file selected";
-        try
-        {
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-        }
+        //try
+        //{
+        await PreviewList();
+        //}
+        //catch (Exception ex)
+        //{
+        //Error = true;
+        //ErrorMessage = ex.ToString();
+        //}
         this.StateHasChanged();
     }
-    #endregion
+
+    public async Task PreviewList()
+    {
+        if (selectedFiles != null)
+        {
+            foreach (var file in selectedFiles)
+            {
+                //Behövs för filstorlek
+                Stream stream = file.OpenReadStream(10140555, default);
+                var path = $"{env.WebRootPath}\\db.xlsx";
+                FileStream fs = File.Create(path);
+                await stream.CopyToAsync(fs);
+                stream.Close();
+                fs.Close();
+            }
+
+            ConsumptionProduct excelProduct = new();
+            NewExcelList = excelProduct.MassImportProducts();
+
+            if(NewExcelList.Count() <= 0)
+            {
+                Error = true;
+            }
+            else
+            {
+                Products = new();
+                Products = (await ConItemDb.Get()).ToList();
+
+                ProductsToRemove = new();
+                ProductsToAdd = new();
+                ProductsToUpdate = new();
+
+                ProductsToRemove = Products.Where(item => NewExcelList.Any(item2 => item.Id != item2.Id)).ToList();
+                foreach(var p in ProductsToRemove)
+                {
+                    Products.Remove(p);
+                }
+
+                ProductsToAdd = NewExcelList.Where(item => Products.All(item2 => item.Id != item2.Id)).ToList();
+                foreach (var p in ProductsToAdd)
+                {
+                    Products.Add(p);
+                }
+
+                ProductsToUpdate = Products.Where(item => NewExcelList.All(item2 => item.Id == item2.Id && (item.Name != item2.Name || item.Category != item2.Category))).ToList();
+                foreach (var p in ProductsToUpdate)
+                {
+                    foreach(var p2 in Products)
+                    {
+                        if(p2.Id == p.Id)
+                        {
+                            p2.Name = p.Name;
+                            p2.Category = p.Category;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public async Task AddProducts()
+    {
+        foreach (var p in ProductsToAdd)
+        {
+            await ConItemDb.Insert(p);
+        }
+
+        foreach (var p in ProductsToRemove)
+        {
+            await ConItemDb.Delete(p);
+        }
+
+        foreach (var p in ProductsToUpdate)
+        {
+            await ConItemDb.Update(p);
+        }
+    }
 
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IWebHostEnvironment env { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private ConsItemService ConItemDb { get; set; }
     }
 }

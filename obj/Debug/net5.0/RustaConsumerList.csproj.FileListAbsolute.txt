@@ -42,7 +42,6 @@ D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\runtimes\win-x86\native\Micros
 D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.pdb
 D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-D:\repos\Rusta\RustaConsumerList\obj\Debug\net5.0\RustaConsumerList.csprojAssemblyReference.cache
 D:\repos\Rusta\RustaConsumerList\obj\Debug\net5.0\RustaConsumerList.GeneratedMSBuildEditorConfig.editorconfig
 D:\repos\Rusta\RustaConsumerList\obj\Debug\net5.0\RustaConsumerList.AssemblyInfoInputs.cache
 D:\repos\Rusta\RustaConsumerList\obj\Debug\net5.0\RustaConsumerList.AssemblyInfo.cs
@@ -103,3 +102,4 @@ D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\Microsoft.JSInterop.dll
 D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\System.IO.Pipelines.dll
 D:\repos\Rusta\RustaConsumerList\obj\Debug\net5.0\RazorDeclaration\Pages\Databas.razor.g.cs
 D:\repos\Rusta\RustaConsumerList\obj\Debug\net5.0\Razor\Pages\Databas.razor.g.cs
+D:\repos\Rusta\RustaConsumerList\obj\Debug\net5.0\RustaConsumerList.csprojAssemblyReference.cache
