@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace RustaConsumerList.Services
 {
@@ -51,6 +52,27 @@ namespace RustaConsumerList.Services
             await context.AddAsync(TEntity);
             await context.SaveChangesAsync();
             return TEntity;
+        }
+
+        public async Task<int> Update(ConsumptionProduct s)
+        {
+            using var context = dbContextFactory.CreateDbContext();
+
+            var q1 = context.Products.SingleOrDefault(x => x.Id == s.Id);
+
+            if (q1 != default)
+            {
+                if (s.Name != "")
+                {
+                    q1.Name = s.Name;
+                }
+                if (s.Category != "")
+                {
+                    q1.Category = s.Category;
+                }
+                await context.SaveChangesAsync();
+            }
+            return 1;
         }
         public async Task<bool> Update(T TEntity)
         {

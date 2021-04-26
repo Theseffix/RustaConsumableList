@@ -9,7 +9,7 @@ using RustaConsumerList;
 namespace RustaConsumerList.Migrations
 {
     [DbContext(typeof(EFContext))]
-    [Migration("20210420091420_v1")]
+    [Migration("20210426122853_v1")]
     partial class v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

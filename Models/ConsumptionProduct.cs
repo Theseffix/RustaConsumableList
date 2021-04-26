@@ -18,5 +18,8 @@ namespace RustaConsumerList.Models
             var products = new ExcelMapper("wwwroot/db.xlsx").Fetch<ConsumptionProduct>();
             return products.Distinct().ToList();
         }
+
+
+
     }
 }

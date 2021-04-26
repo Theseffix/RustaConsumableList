@@ -157,7 +157,7 @@ using RustaConsumerList.Services;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 34 "D:\repos\Rusta\RustaConsumerList\Pages\Databas.razor"
+#line 37 "D:\repos\Rusta\RustaConsumerList\Pages\Databas.razor"
  
 
     public List<ConsumptionProduct> Products = new();
@@ -167,11 +167,14 @@ using RustaConsumerList.Services;
     private List<ConsumptionProduct> ProductsToUpdate = new();
 
     bool Error = false;
+    bool spinner = false;
+    bool Success = false;
+    bool NoFile = true;
+
+    int Done { get; set; }
+    int ProductsToDo { get; set; }
 
     string ErrorMessage { get; set; }
-
-    public int removed { get; set; }
-    public int added { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -185,17 +188,21 @@ using RustaConsumerList.Services;
     async void OnInputFileChange(InputFileChangeEventArgs e)
     {
         Error = false;
+        spinner = false;
+        Success = false;
+        NoFile = false;
+
         selectedFiles = e.GetMultipleFiles();
         Message = $"{selectedFiles.Count} file selected";
-        //try
-        //{
-        await PreviewList();
-        //}
-        //catch (Exception ex)
-        //{
-        //Error = true;
-        //ErrorMessage = ex.ToString();
-        //}
+        try
+        {
+            await PreviewList();
+        }
+        catch (Exception ex)
+        {
+            Error = true;
+            ErrorMessage = ex.ToString();
+        }
         this.StateHasChanged();
     }
 
@@ -226,56 +233,53 @@ using RustaConsumerList.Services;
                 Products = new();
                 Products = (await ConItemDb.Get()).ToList();
 
-                ProductsToRemove = new();
-                ProductsToAdd = new();
-                ProductsToUpdate = new();
+                ProductsToRemove = Products.Where(aItem => NewExcelList.All(bItem => aItem.Id != bItem.Id)).ToList();
+                Products.RemoveAll(aItem => NewExcelList.All(bItem => aItem.Id != bItem.Id));
+                Products.ForEach(aItem => { aItem.Name = NewExcelList.First(bItem => aItem.Id == bItem.Id).Name; aItem.Category = NewExcelList.First(bItem => aItem.Id == bItem.Id).Category;});
+                ProductsToAdd = NewExcelList.Where(bItem => Products.All(aItem => aItem.Id != bItem.Id)).ToList();
+                Products.AddRange(NewExcelList.Where(bItem => Products.All(aItem => aItem.Id != bItem.Id)));
 
-                ProductsToRemove = Products.Where(item => NewExcelList.Any(item2 => item.Id != item2.Id)).ToList();
-                foreach(var p in ProductsToRemove)
-                {
-                    Products.Remove(p);
-                }
-
-                ProductsToAdd = NewExcelList.Where(item => Products.All(item2 => item.Id != item2.Id)).ToList();
-                foreach (var p in ProductsToAdd)
-                {
-                    Products.Add(p);
-                }
-
-                ProductsToUpdate = Products.Where(item => NewExcelList.All(item2 => item.Id == item2.Id && (item.Name != item2.Name || item.Category != item2.Category))).ToList();
-                foreach (var p in ProductsToUpdate)
-                {
-                    foreach(var p2 in Products)
-                    {
-                        if(p2.Id == p.Id)
-                        {
-                            p2.Name = p.Name;
-                            p2.Category = p.Category;
-                        }
-                    }
-                }
             }
         }
     }
 
     public async Task AddProducts()
     {
-        foreach (var p in ProductsToAdd)
-        {
-            await ConItemDb.Insert(p);
-        }
+        spinner = true;
+        Success = false;
+
+        ProductsToDo = ProductsToRemove.Count() + ProductsToAdd.Count() + Products.Count();
+        Done = 0;
 
         foreach (var p in ProductsToRemove)
         {
-            await ConItemDb.Delete(p);
+            await ConItemDb.Delete(p.Id);
+            Done++;
+            this.StateHasChanged();
         }
 
-        foreach (var p in ProductsToUpdate)
+        foreach(var p in Products)
         {
             await ConItemDb.Update(p);
+            Done++;
+            this.StateHasChanged();
         }
-    }
 
+        foreach (var p in ProductsToAdd)
+        {
+            await ConItemDb.Insert(p);
+            Done++;
+            this.StateHasChanged();
+        }
+
+
+        Products = new();
+        Products = (await ConItemDb.Get()).ToList();
+        spinner = false;
+        Success = true;
+        selectedFiles = null;
+        this.StateHasChanged();
+    }
 
 #line default
 #line hidden
