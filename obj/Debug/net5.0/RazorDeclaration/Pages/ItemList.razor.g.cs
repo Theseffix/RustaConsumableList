@@ -157,10 +157,15 @@ using RustaConsumerList.Services;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 49 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
+#line 62 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
       
+
+    public string Image { get; set; }
+    public int NewRow { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
+        NewRow = 0;
         AllItems = (await ConItemDb.GetItems()).ToList();
         foreach (var item in AllItems)
         {

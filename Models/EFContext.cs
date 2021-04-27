@@ -23,10 +23,13 @@ namespace RustaConsumerList
         {
 
             modelBuilder.Entity<ConsumptionProduct>();
+            modelBuilder.Entity<ProductImages>();
 
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<ConsumptionProduct> Products { get; set; }
+        public DbSet<ProductImages> ProductImages { get; set; }
+
         //Skjut ut databas genom Add-Migration i Package Manager Console. Ex. Add-Migration "V2"
     }
 }

@@ -22,7 +22,7 @@
             @foreach (string Category in Categories)
             {
                 <div style="background-color:lightgray;min-width:150px;min-height:200px;width:15%;float:left;margin-left:2%;margin-top:2%">
-                    <img src="~/images/ImageMissing.png" alt="Image Missing" style="margin-left:auto;margin-right:auto;margin-top:6px;display:block;" />
+                    <img src="~/images/ImageMissing.png" alt="Image Missing" asp-append-version="true" />
                     <p>@Category</p>
                     <button @onclick="() => DivClicked(Category)">@Category</button>
                 </div>
@@ -33,22 +33,42 @@
         {
             @foreach (var item in AllItems)
             {
+                @if (NewRow == 5)
+                {
+                    NewRow = 0;
+                    
+                    <div id="Div1" runat="server" style="background-color:lightgray;width:98%;margin-left:2%;margin-top:2%;float:left">
+                        <p>@item.Name</p>
+                    </div>
+                }
+
                 if (item.Category == CatChoise)
                 {
-                    <div style="background-color:lightgray;min-width:150px;min-height:200px;width:15%;float:left;margin-left:2%;margin-top:2%">
-                        <img src="~/images/ImageMissing.png" alt="Image Missing" style="margin-left:auto;margin-right:auto;margin-top:6px;display:block;" />
+                    NewRow++;
+
+                    <div style="background-color:lightgray;min-height:200px;width:18%;float:left;margin-left:2%;margin-top:2%">
+                        <img class="card-img" src="~/images/ImageMissing.png" style="margin-left:auto;margin-right:auto;margin-top:6px;display:block;" alt="Image Missing" />
                         <p>@item.Name</p>
                     </div>
                 }
             }
+
+            NewRow = 0;
         }
     </div>
 </div>
 
 
 @code{
+
+    public string Image { get; set; }
+    public int NewRow { get; set; }
+    public int NewRowId { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
+        NewRow = 0;
+        NewRowId = 0;
         AllItems = (await ConItemDb.GetItems()).ToList();
         foreach (var item in AllItems)
         {

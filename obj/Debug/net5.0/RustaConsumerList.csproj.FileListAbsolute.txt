@@ -103,3 +103,4 @@ D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\System.IO.Pipelines.dll
 D:\repos\Rusta\RustaConsumerList\obj\Debug\net5.0\RazorDeclaration\Pages\Databas.razor.g.cs
 D:\repos\Rusta\RustaConsumerList\obj\Debug\net5.0\Razor\Pages\Databas.razor.g.cs
 D:\repos\Rusta\RustaConsumerList\obj\Debug\net5.0\RustaConsumerList.csprojAssemblyReference.cache
+D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\wwwroot\images\ImageMissing.png
