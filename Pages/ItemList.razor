@@ -13,46 +13,64 @@
 
 @inject ConsItemService ConItemDb
 
+<link href="/css/RustaStyleSheet.css" rel="stylesheet" type="text/css" />
+
 <div style="height:60px"></div>
-<div style="width:100%">
-    <div style="width:95%;">
+<div style="width:90%;margin-left:auto;margin-right:auto">
+    <div style="width:100%;">
         <br />
         @if (!CategoryClicked)
         {
             @foreach (string Category in Categories)
             {
-                <div style="background-color:lightgray;min-width:150px;min-height:200px;width:15%;float:left;margin-left:2%;margin-top:2%">
-                    <img src="~/images/ImageMissing.png" alt="Image Missing" asp-append-version="true" />
-                    <p>@Category</p>
-                    <button @onclick="() => DivClicked(Category)">@Category</button>
+                <div class="DivSize hoverOutline" @onclick="() => DivClicked(Category)">
+                    <img class="imageSize" src="/images/ImageMissing.png" alt="Image Missing" asp-append-version="true" />
+                    <p class="limit">@Category</p>
                 </div>
             }
         }
 
         @if (CategoryClicked)
         {
+            <textbox>@TestDouble</textbox>
+            RowList = new();
+
             @foreach (var item in AllItems)
             {
-                @if (NewRow == 5)
+                @if (NewRow == 7)
                 {
                     NewRow = 0;
-                    
-                    <div id="Div1" runat="server" style="background-color:lightgray;width:98%;margin-left:2%;margin-top:2%;float:left">
-                        <p>@item.Name</p>
+                    BoolList.Add(true);
+
+
+                    <div class="DropDownSize" hidden="@BoolList[NewRowId]">
+                        <p>@BoolList[NewRowId]</p>
                     </div>
+                    NewRowId++;
                 }
 
                 if (item.Category == CatChoise)
                 {
                     NewRow++;
+                    RowList.Add(NewRowId);
+                    item.DynamicRow = NewRowId;
 
-                    <div style="background-color:lightgray;min-height:200px;width:18%;float:left;margin-left:2%;margin-top:2%">
-                        <img class="card-img" src="~/images/ImageMissing.png" style="margin-left:auto;margin-right:auto;margin-top:6px;display:block;" alt="Image Missing" />
-                        <p>@item.Name</p>
+                    <div class="DivSize hoverOutline" @onclick="e => Div_Click(item.DynamicRow)">
+                        <img class="imageSize" src="/images/ImageMissing.png" alt="Image Missing" />
+                        <p class="limit">@item.Name</p>
                     </div>
                 }
             }
 
+            NewRow = 0;
+            BoolList.Add(true);
+
+
+            <div class="DropDownSize" hidden="@BoolList[NewRowId]">
+                <p>@BoolList[NewRowId]</p>
+            </div>
+
+            NewRowId = 0;
             NewRow = 0;
         }
     </div>
@@ -61,12 +79,18 @@
 
 @code{
 
+    public string TestDouble { get; set; }
     public string Image { get; set; }
     public int NewRow { get; set; }
-    public int NewRowId { get; set; }
+    public int NewRowId = 0;
+    public bool showit = false;
+    public List<bool> BoolList { get; set; }
+    public List<int> RowList { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        BoolList = new();
+        RowList = new();
         NewRow = 0;
         NewRowId = 0;
         AllItems = (await ConItemDb.GetItems()).ToList();
@@ -78,6 +102,20 @@
             }
         }
         this.StateHasChanged();
+    }
+
+    public void Div_Click(int RowId)
+    {
+        if (BoolList.Contains(false))
+        {
+            for (int i = 0; i < BoolList.Count(); i++)
+            {
+                BoolList[i] = true;
+            }
+        }
+
+        BoolList[RowId] = !BoolList[RowId];
+        StateHasChanged();
     }
 
     #region Categorys

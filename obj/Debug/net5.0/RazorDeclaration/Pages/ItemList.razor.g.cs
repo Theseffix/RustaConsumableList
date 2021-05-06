@@ -157,15 +157,23 @@ using RustaConsumerList.Services;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 62 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
+#line 80 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
       
 
+    public string TestDouble { get; set; }
     public string Image { get; set; }
     public int NewRow { get; set; }
+    public int NewRowId = 0;
+    public bool showit = false;
+    public List<bool> BoolList { get; set; }
+    public List<int> RowList { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        BoolList = new();
+        RowList = new();
         NewRow = 0;
+        NewRowId = 0;
         AllItems = (await ConItemDb.GetItems()).ToList();
         foreach (var item in AllItems)
         {
@@ -175,6 +183,20 @@ using RustaConsumerList.Services;
             }
         }
         this.StateHasChanged();
+    }
+
+    public void Div_Click(int RowId)
+    {
+        if (BoolList.Contains(false))
+        {
+            for (int i = 0; i < BoolList.Count(); i++)
+            {
+                BoolList[i] = true;
+            }
+        }
+
+        BoolList[RowId] = !BoolList[RowId];
+        StateHasChanged();
     }
 
     #region Categorys

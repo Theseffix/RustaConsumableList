@@ -13,7 +13,8 @@ namespace RustaConsumerList.Migrations
                 {
                     Id = table.Column<double>(type: "float", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Category = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DynamicRow = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

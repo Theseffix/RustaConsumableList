@@ -10,7 +10,7 @@ using RustaConsumerList;
 namespace RustaConsumerList.Migrations
 {
     [DbContext(typeof(EFContext))]
-    [Migration("20210427092240_v1")]
+    [Migration("20210506141724_v1")]
     partial class v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,6 +28,9 @@ namespace RustaConsumerList.Migrations
 
                     b.Property<string>("Category")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DynamicRow")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");

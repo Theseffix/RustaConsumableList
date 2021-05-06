@@ -1,0 +1,36 @@
+﻿body {
+}
+
+.imageSize {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 6px;
+    display: block;
+    width: 95%;
+}
+
+.DropDownSize {
+    width:89%;
+    float:left;
+    background-color:lightgray;
+    margin-left:2%;
+    margin-top:2%;
+}
+
+.DivSize {
+    background-color:lightgray;
+    min-height:200px;
+    width:11%;
+    float:left;
+    margin-left:2%;
+    margin-top:2%;
+}
+
+.DivSize.hoverOutline:hover {
+    outline: 2px Solid gray;
+}
+
+.limit {
+    width: 90%;
+    word-wrap: break-word;
+}
