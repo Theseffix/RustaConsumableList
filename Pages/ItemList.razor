@@ -15,6 +15,8 @@
 
 <link href="/css/RustaStyleSheet.css" rel="stylesheet" type="text/css" />
 
+<div style="position:fixed;z-index:99;min-width:165px;height:50px;" @onclick="() => HomeDiv_Click()"></div>
+
 <div style="height:60px"></div>
 <div style="width:90%;margin-left:auto;margin-right:auto">
     <div style="width:100%;">
@@ -44,7 +46,29 @@
 
 
                     <div class="DropDownSize" hidden="@BoolList[NewRowId]">
-                        <p>@BoolList[NewRowId]</p>
+                        <div style="padding-left:6px;padding-right:6px;">
+                            <Tabs>
+                                <Tab>
+                                    <Header>Produktinformation</Header>
+                                    <ChildContent>
+                                        <p>@ProductId</p>
+                                        <p>@ProductName</p>
+                                        <br />
+                                        <p>
+                                            Här kommer det produktbeskrivning... bla bla bla.
+                                        </p>
+                                    </ChildContent>
+                                </Tab>
+                                <Tab>
+                                    <Header>Bilder</Header>
+                                    <ChildContent><p>här kommer det bilder</p></ChildContent>
+                                </Tab>
+                                <Tab>
+                                    <Header>Kommentarer(0)</Header>
+                                    <ChildContent><p>Här kommer ett forum för kommentarer</p></ChildContent>
+                                </Tab>
+                            </Tabs>
+                        </div>
                     </div>
                     NewRowId++;
                 }
@@ -55,10 +79,23 @@
                     RowList.Add(NewRowId);
                     item.DynamicRow = NewRowId;
 
-                    <div class="DivSize hoverOutline" @onclick="e => Div_Click(item.DynamicRow)">
-                        <img class="imageSize" src="/images/ImageMissing.png" alt="Image Missing" />
-                        <p class="limit">@item.Name</p>
-                    </div>
+                    if (item.Id == LastClickedDivId)
+                    {
+                        <div class="DivSize hoverOutline" style="outline: 2px solid gray" @onclick="e => Div_Click(item.DynamicRow, item.Id, item.Name)">
+                            <img class="imageSize" src="/images/ImageMissing.png" alt="Image Missing" />
+                            <p class="limit">@item.Name</p>
+                            <p class="limit">@item.Id</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="DivSize hoverOutline" @onclick="e => Div_Click(item.DynamicRow, item.Id, item.Name)">
+                            <img class="imageSize" src="/images/ImageMissing.png" alt="Image Missing" />
+                            <p class="limit">@item.Name</p>
+                            <p class="limit">@item.Id</p>
+                        </div>
+                    }
+
                 }
             }
 
@@ -79,10 +116,14 @@
 
 @code{
 
+    public double ProductId { get; set; }
+    public string ProductName { get; set; }
+
     public string TestDouble { get; set; }
     public string Image { get; set; }
     public int NewRow { get; set; }
     public int NewRowId = 0;
+    public double LastClickedDivId = 0;
     public bool showit = false;
     public List<bool> BoolList { get; set; }
     public List<int> RowList { get; set; }
@@ -104,17 +145,35 @@
         this.StateHasChanged();
     }
 
-    public void Div_Click(int RowId)
+    public void HomeDiv_Click()
+    {
+        CategoryClicked = false;
+        this.StateHasChanged();
+    }
+
+    public void Div_Click(int RowId, double DivId, string DivName)
     {
         if (BoolList.Contains(false))
         {
             for (int i = 0; i < BoolList.Count(); i++)
             {
-                BoolList[i] = true;
+                if(i != RowId)
+                {
+                    BoolList[i] = true;
+                }
             }
         }
-
-        BoolList[RowId] = !BoolList[RowId];
+        if (LastClickedDivId == DivId)
+        {
+            BoolList[RowId] = !BoolList[RowId];
+        }
+        else
+        {
+            BoolList[RowId] = false;
+            LastClickedDivId = DivId;
+            ProductId = DivId;
+            ProductName = DivName;
+        }
         StateHasChanged();
     }
 

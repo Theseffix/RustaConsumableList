@@ -157,13 +157,17 @@ using RustaConsumerList.Services;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 80 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
+#line 117 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
       
+
+    public double ProductId { get; set; }
+    public string ProductName { get; set; }
 
     public string TestDouble { get; set; }
     public string Image { get; set; }
     public int NewRow { get; set; }
     public int NewRowId = 0;
+    public double LastClickedDivId = 0;
     public bool showit = false;
     public List<bool> BoolList { get; set; }
     public List<int> RowList { get; set; }
@@ -185,17 +189,35 @@ using RustaConsumerList.Services;
         this.StateHasChanged();
     }
 
-    public void Div_Click(int RowId)
+    public void HomeDiv_Click()
+    {
+        CategoryClicked = false;
+        this.StateHasChanged();
+    }
+
+    public void Div_Click(int RowId, double DivId, string DivName)
     {
         if (BoolList.Contains(false))
         {
             for (int i = 0; i < BoolList.Count(); i++)
             {
-                BoolList[i] = true;
+                if(i != RowId)
+                {
+                    BoolList[i] = true;
+                }
             }
         }
-
-        BoolList[RowId] = !BoolList[RowId];
+        if (LastClickedDivId == DivId)
+        {
+            BoolList[RowId] = !BoolList[RowId];
+        }
+        else
+        {
+            BoolList[RowId] = false;
+            LastClickedDivId = DivId;
+            ProductId = DivId;
+            ProductName = DivName;
+        }
         StateHasChanged();
     }
 

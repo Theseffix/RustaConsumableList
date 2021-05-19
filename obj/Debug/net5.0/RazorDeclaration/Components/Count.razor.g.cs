@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace RustaConsumerList.Shared
+namespace RustaConsumerList.Components
 {
     #line hidden
     using System;
@@ -82,42 +82,13 @@ using RustaConsumerList.Shared;
 #line default
 #line hidden
 #nullable disable
-#nullable restore
-#line 1 "D:\repos\Rusta\RustaConsumerList\Shared\MainLayout.razor"
-using Blazority;
-
-#line default
-#line hidden
-#nullable disable
-#nullable restore
-#line 2 "D:\repos\Rusta\RustaConsumerList\Shared\MainLayout.razor"
-using RustaConsumerList.Pages;
-
-#line default
-#line hidden
-#nullable disable
-    public partial class MainLayout : LayoutComponentBase
+    public partial class Count : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
         {
         }
         #pragma warning restore 1998
-#nullable restore
-#line 24 "D:\repos\Rusta\RustaConsumerList\Shared\MainLayout.razor"
- 
-
-    string DBNav = "/DB";
-
-    public void Navigate(string URL)
-    {
-        NavigationManager.NavigateTo(URL);
-    }
-
-#line default
-#line hidden
-#nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
     }
 }
 #pragma warning restore 1591
