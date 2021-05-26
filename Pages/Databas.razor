@@ -16,7 +16,7 @@
 
 <div style="height:60px"></div>
 <div style="padding-left:12px;padding-right:12px;">
-    <InputFile OnChange="OnInputFileChange" multiple />
+    <Microsoft.AspNetCore.Components.Forms.InputFile OnChange="OnInputFileChange" multiple />
     @if (Error) { <p>Fel med filen. @ErrorMessage</p> }
     <br />
     @if (!spinner && !NoFile) {<Button Variant="Primary" Disabled="Success" OnClick="() => AddProducts()">Skapa</Button> }

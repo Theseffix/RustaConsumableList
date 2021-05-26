@@ -1,0 +1,5 @@
+﻿<StaticWebAssets Version="1.0">
+  <ContentRoot BasePath="/" Path="D:\repos\Rusta\RustaConsumerList\obj\Release\net5.0\scopedcss\bundle\" />
+  <ContentRoot BasePath="_content/BlazorInputFile" Path="C:\Users\denni\.nuget\packages\blazorinputfile\0.2.0\build\..\staticwebassets\" />
+  <ContentRoot BasePath="_content/Blazority" Path="C:\Users\denni\.nuget\packages\blazority\0.7.2\build\..\staticwebassets\" />
+</StaticWebAssets>

@@ -104,3 +104,7 @@ D:\repos\Rusta\RustaConsumerList\obj\Debug\net5.0\RazorDeclaration\Pages\Databas
 D:\repos\Rusta\RustaConsumerList\obj\Debug\net5.0\Razor\Pages\Databas.razor.g.cs
 D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\wwwroot\images\ImageMissing.png
 D:\repos\Rusta\RustaConsumerList\obj\Debug\net5.0\RustaConsumerList.csprojAssemblyReference.cache
+D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Connections.Client.dll
+D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\Microsoft.Azure.SignalR.Common.dll
+D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\Microsoft.Azure.SignalR.dll
+D:\repos\Rusta\RustaConsumerList\bin\Debug\net5.0\Microsoft.Azure.SignalR.Protocols.dll

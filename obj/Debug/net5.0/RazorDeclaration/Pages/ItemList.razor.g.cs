@@ -108,41 +108,48 @@ using Blazority;
 #nullable disable
 #nullable restore
 #line 7 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
-using System.Threading.Tasks;
+using BlazorInputFile;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 8 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
-using System.Linq;
+using System.Threading.Tasks;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 9 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
-using System.IO;
+using System.Linq;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 10 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
-using System.Collections.Generic;
+using System.IO;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 11 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
-using RustaConsumerList.Models;
+using System.Collections.Generic;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 12 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
+using RustaConsumerList.Models;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 13 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
 using RustaConsumerList.Services;
 
 #line default
@@ -157,7 +164,7 @@ using RustaConsumerList.Services;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 117 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
+#line 123 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
       
 
     public double ProductId { get; set; }
@@ -165,6 +172,7 @@ using RustaConsumerList.Services;
 
     public string TestDouble { get; set; }
     public string Image { get; set; }
+    public string Status { get; set; }
     public int NewRow { get; set; }
     public int NewRowId = 0;
     public double LastClickedDivId = 0;
@@ -192,6 +200,7 @@ using RustaConsumerList.Services;
     public void HomeDiv_Click()
     {
         CategoryClicked = false;
+        BoolList = new();
         this.StateHasChanged();
     }
 
@@ -219,6 +228,25 @@ using RustaConsumerList.Services;
             ProductName = DivName;
         }
         StateHasChanged();
+    }
+
+    async Task HandleSelection(IFileListEntry[] files)
+    {
+        if (files != null)
+        {
+            foreach(var f in files)
+            {
+                ProductImage PI = new();
+
+                var ms = new MemoryStream();
+                await f.Data.CopyToAsync(ms);
+
+                PI.Image = ms.ToArray();
+                await ConItemDb.InsertImageToItem(PI, LastClickedDivId);
+            }
+
+            Status = $" {files.Count()} filer.";
+        }
     }
 
     #region Categorys

@@ -13,6 +13,7 @@ namespace RustaConsumerList.Models
         [Column("Category")]
         public string Category { get; set; }
         public int DynamicRow { get; set; }
+        public ICollection<ProductImage> ProductImages { get; set; }
 
         public List<ConsumptionProduct> MassImportProducts()
         {

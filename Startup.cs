@@ -34,7 +34,7 @@ namespace RustaConsumerList
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<ConsumptionProduct>();
-            services.AddScoped<ProductImages>();
+            services.AddScoped<ProductImage>();
             services.AddScoped<ConsItemService>();
         }
 

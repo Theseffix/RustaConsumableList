@@ -46,5 +46,18 @@ namespace RustaConsumerList.Services
             context.SaveChanges();
         }
 
+        public async Task<bool> InsertImageToItem(ProductImage Image, double ArtNumber)
+        {
+            using var context = dbContextFactory.CreateDbContext();
+            var product = context.Products.Where(x => x.Id == ArtNumber).Include(t => t.ProductImages).FirstOrDefault();
+            product.ProductImages.Add(Image);
+            context.Add(Image);
+
+            context.Update(product);
+
+            await context.SaveChangesAsync();
+            return true;
+        }
+
     }
 }
