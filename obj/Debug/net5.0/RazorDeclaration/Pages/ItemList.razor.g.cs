@@ -164,8 +164,8 @@ using RustaConsumerList.Services;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 123 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
-      
+#line 131 "D:\repos\Rusta\RustaConsumerList\Pages\ItemList.razor"
+ 
 
     public double ProductId { get; set; }
     public string ProductName { get; set; }
@@ -177,8 +177,10 @@ using RustaConsumerList.Services;
     public int NewRowId = 0;
     public double LastClickedDivId = 0;
     public bool showit = false;
+    public bool ImageUploadDisabled = false;
     public List<bool> BoolList { get; set; }
     public List<int> RowList { get; set; }
+    public List<ProductImage> ProductImages = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -187,6 +189,7 @@ using RustaConsumerList.Services;
         NewRow = 0;
         NewRowId = 0;
         AllItems = (await ConItemDb.GetItems()).ToList();
+        ProductImages = (await ConItemDb.GetImages()).ToList();
         foreach (var item in AllItems)
         {
             if (!Categories.Contains(item.Category))
@@ -210,7 +213,7 @@ using RustaConsumerList.Services;
         {
             for (int i = 0; i < BoolList.Count(); i++)
             {
-                if(i != RowId)
+                if (i != RowId)
                 {
                     BoolList[i] = true;
                 }
@@ -232,21 +235,24 @@ using RustaConsumerList.Services;
 
     async Task HandleSelection(IFileListEntry[] files)
     {
+        ImageUploadDisabled = true;
         if (files != null)
         {
-            foreach(var f in files)
+            foreach (var f in files)
             {
                 ProductImage PI = new();
 
                 var ms = new MemoryStream();
                 await f.Data.CopyToAsync(ms);
 
+                PI.ConProdId = LastClickedDivId;
                 PI.Image = ms.ToArray();
                 await ConItemDb.InsertImageToItem(PI, LastClickedDivId);
             }
-
-            Status = $" {files.Count()} filer.";
+            ProductImages = (await ConItemDb.GetImages()).ToList();
+            this.StateHasChanged();
         }
+        ImageUploadDisabled = false;
     }
 
     #region Categorys
@@ -264,6 +270,17 @@ using RustaConsumerList.Services;
     }
     #endregion
 
+    public string ConvertImageToDisplay(byte[] Image)
+    {
+        if (Image != null)
+        {
+            var base64 = Convert.ToBase64String(Image);
+            var fs = string.Format("data:image/jpg;base64,{0}", base64);
+            return fs;
+        }
+
+        return "";
+    }
 
 #line default
 #line hidden

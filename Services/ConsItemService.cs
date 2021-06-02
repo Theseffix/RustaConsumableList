@@ -59,5 +59,13 @@ namespace RustaConsumerList.Services
             return true;
         }
 
+        public async Task<List<ProductImage>> GetImages()
+        {
+            using var context = dbContextFactory.CreateDbContext();
+            var AllItems = await context.ProductImages.ToListAsync();
+
+            return AllItems.ToList();
+        }
+
     }
 }

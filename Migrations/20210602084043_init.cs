@@ -28,8 +28,7 @@ namespace RustaConsumerList.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    ConsumptionProductId = table.Column<int>(type: "int", nullable: false),
-                    ConProdId = table.Column<double>(type: "float", nullable: true)
+                    ConProdId = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,7 +38,7 @@ namespace RustaConsumerList.Migrations
                         column: x => x.ConProdId,
                         principalTable: "Products",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

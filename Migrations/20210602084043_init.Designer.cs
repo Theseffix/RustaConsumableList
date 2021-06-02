@@ -10,7 +10,7 @@ using RustaConsumerList;
 namespace RustaConsumerList.Migrations
 {
     [DbContext(typeof(EFContext))]
-    [Migration("20210526081930_init")]
+    [Migration("20210602084043_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,11 +47,8 @@ namespace RustaConsumerList.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double?>("ConProdId")
+                    b.Property<double>("ConProdId")
                         .HasColumnType("float");
-
-                    b.Property<int>("ConsumptionProductId")
-                        .HasColumnType("int");
 
                     b.Property<byte[]>("Image")
                         .HasColumnType("varbinary(max)");
@@ -67,7 +64,9 @@ namespace RustaConsumerList.Migrations
                 {
                     b.HasOne("RustaConsumerList.Models.ConsumptionProduct", "ConProd")
                         .WithMany("ProductImages")
-                        .HasForeignKey("ConProdId");
+                        .HasForeignKey("ConProdId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ConProd");
                 });

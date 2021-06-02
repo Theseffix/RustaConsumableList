@@ -9,7 +9,8 @@ namespace RustaConsumerList.Models
     {
         public int Id { get; set; }
         public byte[] Image { get; set; }
-        [ForeignKey("Area")]
+        [ForeignKey("ConsumptionProduct")]
+        public double ConProdId { get; set; }
         public ConsumptionProduct ConProd { get; set; }
 
     }
